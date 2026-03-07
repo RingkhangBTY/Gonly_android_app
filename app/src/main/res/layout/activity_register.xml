@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="32dp">
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:gravity="center_horizontal">
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="Create Account" android:textSize="28sp" android:textStyle="bold"
+        android:layout_marginBottom="32dp"/>
+
+    <EditText android:id="@+id/regFullName" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:hint="Full Name" android:layout_marginBottom="12dp"/>
+
+    <EditText android:id="@+id/regEmail" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:hint="Email" android:inputType="textEmailAddress"
+        android:layout_marginBottom="12dp"/>
+
+    <EditText android:id="@+id/regPassword" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:hint="Password" android:inputType="textPassword"
+        android:layout_marginBottom="12dp"/>
+
+    <EditText android:id="@+id/regHomeState" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:hint="Home State (optional)"
+        android:layout_marginBottom="24dp"/>
+
+    <Button android:id="@+id/registerButton" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:text="Register" android:layout_marginBottom="16dp"/>
+
+    <TextView android:id="@+id/goToLogin" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:text="Already have account? Login"
+        android:textColor="#1976D2" android:padding="8dp"/>
+  </LinearLayout>
+</ScrollView>

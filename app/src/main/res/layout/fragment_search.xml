@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:padding="12dp">
+
+    <!-- Search bar -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:layout_marginBottom="8dp">
+        <EditText android:id="@+id/searchInput" android:layout_width="0dp"
+            android:layout_height="wrap_content" android:layout_weight="1" android:hint="Search gems..."/>
+        <Button android:id="@+id/searchButton" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="🔍"/>
+    </LinearLayout>
+
+    <!-- Category chips -->
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/categoryChips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- State filter -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:layout_marginBottom="8dp">
+        <EditText android:id="@+id/stateFilterInput" android:layout_width="0dp"
+            android:layout_height="wrap_content" android:layout_weight="1" android:hint="Filter by state..."/>
+        <Button android:id="@+id/stateFilterButton" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="Filter"/>
+    </LinearLayout>
+
+    <TextView android:id="@+id/noResultsText" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:text="No results found"
+        android:gravity="center" android:visibility="gone" android:padding="32dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/searchResults"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- Instruction text -->
+    <TextView
+        android:id="@+id/pickInstructionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="📌 Tap on the map to pick a location for your gem"
+        android:textSize="15sp"
+        android:padding="12dp"
+        android:background="#FFF9C4"
+        android:gravity="center"/>
+
+    <!-- Map takes most of the screen -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/pickMapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <!-- My Location button (top right of map) -->
+        <Button
+            android:id="@+id/myLocationButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📍 My Location"
+            android:textSize="12sp"
+            android:layout_gravity="top|end"
+            android:layout_margin="12dp"
+            android:elevation="4dp"/>
+
+    </FrameLayout>
+
+    <!-- Selected location display -->
+    <TextView
+        android:id="@+id/selectedLocationText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="14sp"
+        android:padding="10dp"
+        android:gravity="center"
+        android:textColor="#333"
+        android:visibility="gone"/>
+
+    <!-- Confirm button -->
+    <Button
+        android:id="@+id/confirmLocationButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pick a location on the map first"
+        android:textSize="16sp"
+        android:backgroundTint="#4CAF50"
+        android:textColor="#FFFFFF"
+        android:padding="14dp"
+        android:enabled="false"/>
+
+</LinearLayout>

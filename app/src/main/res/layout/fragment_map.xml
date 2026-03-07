@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF">
+
+    <!-- ===== SEARCH BAR (fixed at top, never overlaps map) ===== -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:background="#FFFFFF"
+        android:elevation="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#F0F0F0"
+            android:padding="4dp">
+
+            <EditText
+                android:id="@+id/mapSearchBar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="🔍 Search gems..."
+                android:textSize="15sp"
+                android:padding="12dp"
+                android:background="@android:color/transparent"
+                android:singleLine="true"
+                android:imeOptions="actionSearch"/>
+
+            <Button
+                android:id="@+id/mapSearchButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Search"
+                android:textSize="13sp"/>
+
+        </LinearLayout>
+
+        <!-- Result count (hidden by default) -->
+        <TextView
+            android:id="@+id/mapResultCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#333"
+            android:background="#E8F5E9"
+            android:padding="6dp"
+            android:layout_marginTop="4dp"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+    <!-- ===== MAP (fills all remaining space below search bar) ===== -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <!-- Add Gem button floating over bottom-right of map -->
+        <Button
+            android:id="@+id/addGemFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+ Add Gem"
+            android:textSize="14sp"
+            android:backgroundTint="#4CAF50"
+            android:textColor="#FFFFFF"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:elevation="8dp"/>
+    </FrameLayout>
+
+</LinearLayout>

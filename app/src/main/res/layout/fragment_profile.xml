@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:padding="16dp">
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="👤 My Profile" android:textSize="22sp" android:textStyle="bold"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView android:id="@+id/profileName" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:textSize="20sp" android:layout_marginBottom="4dp"/>
+
+    <TextView android:id="@+id/profileEmail" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:textSize="14sp" android:textColor="#888"
+        android:layout_marginBottom="16dp"/>
+
+    <Button android:id="@+id/logoutButton" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:text="Logout"
+        android:layout_marginBottom="24dp"/>
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="My Submitted Gems" android:textSize="18sp" android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/myGemsRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>
