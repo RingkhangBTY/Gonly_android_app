@@ -14,5 +14,6 @@
 .cxx
 local.properties
 
+# Very important to exclude this since it has the API keys and other sensitive information
 **/AndroidManifest.xml
 
