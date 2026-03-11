@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         // Show map fragment first (works without login)
         if (savedInstanceState == null) {
             loadFragment(new MapFragment());
+//            loadFragment(new SearchFragment());
         }
 
         bottomNav.setOnItemSelectedListener(item -> {
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragmentContainer, fragment)
+                .addToBackStack(null)
                 .commit();
     }
 }

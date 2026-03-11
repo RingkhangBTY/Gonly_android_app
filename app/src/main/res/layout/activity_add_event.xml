@@ -1,36 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent" android:padding="16dp">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:fitsSystemWindows="true">
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="🎪 Add New Event" android:textSize="24sp" android:textStyle="bold"
-            android:layout_marginBottom="16dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="🎪 Add New Event"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
-        <EditText android:id="@+id/addEventTitle" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:hint="Event Title *" android:layout_marginBottom="12dp"/>
+        <EditText
+            android:id="@+id/addEventTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:hint="Event Title *" />
 
-        <EditText android:id="@+id/addEventDesc" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:hint="Description" android:minLines="3"
-            android:layout_marginBottom="12dp"/>
+        <EditText
+            android:id="@+id/addEventDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:hint="Description"
+            android:minLines="3" />
 
-        <Spinner android:id="@+id/addEventType" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:layout_marginBottom="12dp"/>
+        <Spinner
+            android:id="@+id/addEventType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp" />
 
-        <EditText android:id="@+id/addEventState" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:hint="State *" android:layout_marginBottom="12dp"/>
+        <EditText
+            android:id="@+id/addEventState"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:hint="State *" />
 
-        <EditText android:id="@+id/addEventStartDate" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:hint="Start Date (yyyy-MM-dd) *"
-            android:layout_marginBottom="12dp"/>
+        <EditText
+            android:id="@+id/addEventStartDate"
+            android:inputType="date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:focusable="false"
+            android:hint="Start Date (yyyy-MM-dd) *" />
 
-        <EditText android:id="@+id/addEventEndDate" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:hint="End Date (yyyy-MM-dd)"
-            android:layout_marginBottom="16dp"/>
+        <EditText
+            android:id="@+id/addEventEndDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:focusable="false"
+            android:hint="End Date (yyyy-MM-dd)" />
 
-        <Button android:id="@+id/submitEventButton" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:text="Submit Event"/>
+        <Button
+            android:id="@+id/submitEventButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit Event" />
     </LinearLayout>
 </ScrollView>

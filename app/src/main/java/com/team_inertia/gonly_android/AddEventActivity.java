@@ -1,5 +1,6 @@
 package com.team_inertia.gonly_android;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,8 @@ import com.team_inertia.gonly_android.model.EventRequest;
 import com.team_inertia.gonly_android.model.EventResponse;
 import com.team_inertia.gonly_android.util.SessionManager;
 
+import java.util.Calendar;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -21,7 +24,8 @@ public class AddEventActivity extends AppCompatActivity {
     private EditText titleInput, descInput, stateInput, startDateInput, endDateInput;
     private Spinner typeSpinner;
     private Button submitBtn;
-    private String[] eventTypes = {"FESTIVAL", "FAIR", "MUSIC", "CULTURAL", "MARKET", "SPORTS", "RELIGIOUS"};
+    private final String[] eventTypes = {"FESTIVAL", "FAIR", "MUSIC", "CULTURAL", "MARKET", "SPORTS", "RELIGIOUS"};
+    private ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,24 +42,11 @@ public class AddEventActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_add_event);
 
-        titleInput = findViewById(R.id.addEventTitle);
-        descInput = findViewById(R.id.addEventDesc);
-        stateInput = findViewById(R.id.addEventState);
-        startDateInput = findViewById(R.id.addEventStartDate);
-        endDateInput = findViewById(R.id.addEventEndDate);
-        typeSpinner = findViewById(R.id.addEventType);
-        submitBtn = findViewById(R.id.submitEventButton);
+        initializeViews();
+        setListeners();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_dropdown_item, eventTypes);
         typeSpinner.setAdapter(adapter);
 
-        submitBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                submitEvent();
-            }
-        });
     }
 
     private void submitEvent() {
@@ -101,5 +92,55 @@ public class AddEventActivity extends AppCompatActivity {
                 Toast.makeText(AddEventActivity.this, "Network error", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void setListeners() {
+        submitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submitEvent();
+            }
+        });
+
+        startDateInput.setOnClickListener(v->{
+            Calendar calendar = Calendar.getInstance();
+            DatePickerDialog datePicker = new DatePickerDialog(this,
+                    (view, year, month, dayOfMonth) -> {
+                String dateStr = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth);
+                startDateInput.setText(dateStr);
+            },
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH)
+            );
+            datePicker.show();
+        });
+
+        endDateInput.setOnClickListener(v-> {
+            Calendar calendar = Calendar.getInstance();
+            DatePickerDialog datePicker = new DatePickerDialog(this,
+                    (view, year, month, dayOfMonth) -> {
+                        String dateStr = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth);
+                        endDateInput.setText(dateStr);
+                    },
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH)
+            );
+            datePicker.show();
+        });
+    }
+    private void initializeViews() {
+        titleInput = findViewById(R.id.addEventTitle);
+        descInput = findViewById(R.id.addEventDesc);
+        stateInput = findViewById(R.id.addEventState);
+        startDateInput = findViewById(R.id.addEventStartDate);
+        endDateInput = findViewById(R.id.addEventEndDate);
+        typeSpinner = findViewById(R.id.addEventType);
+        submitBtn = findViewById(R.id.submitEventButton);
+
+        adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_dropdown_item, eventTypes);
+//        typeSpinner.setAdapter(adapter);
     }
 }

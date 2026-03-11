@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,172 +14,325 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:text="➕ Add New Hidden Gem"
             android:textSize="22sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp"/>
+            android:textStyle="bold" />
 
         <!-- ===== BASIC FIELDS ===== -->
 
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="Name *" android:textSize="14sp" android:textStyle="bold"
-            android:layout_marginBottom="4dp"/>
-        <EditText android:id="@+id/addGemName" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:hint="e.g. Mawlynnong Village"
-            android:layout_marginBottom="12dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="Name *"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="Description *" android:textSize="14sp" android:textStyle="bold"
-            android:layout_marginBottom="4dp"/>
-        <EditText android:id="@+id/addGemDesc" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:hint="What makes this place special?"
-            android:minLines="3" android:gravity="top" android:layout_marginBottom="12dp"/>
+        <EditText
+            android:id="@+id/addGemName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:hint="e.g. Mawlynnong Village" />
 
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="State *" android:textSize="14sp" android:textStyle="bold"
-            android:layout_marginBottom="4dp"/>
-        <EditText android:id="@+id/addGemState" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:hint="e.g. Meghalaya"
-            android:layout_marginBottom="12dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="Description *"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="Category *" android:textSize="14sp" android:textStyle="bold"
-            android:layout_marginBottom="4dp"/>
-        <Spinner android:id="@+id/addGemCategory" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:layout_marginBottom="12dp"/>
+        <EditText
+            android:id="@+id/addGemDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:gravity="top"
+            android:hint="What makes this place special?"
+            android:minLines="3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="State *"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/addGemState"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:hint="e.g. Meghalaya" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="Category *"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/addGemCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp" />
 
         <!-- ===== LOCATION (2 options) ===== -->
 
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="Location * (choose one method)" android:textSize="14sp"
-            android:textStyle="bold" android:layout_marginBottom="8dp"/>
-
-        <Button android:id="@+id/getLocationButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="📍 Use My GPS Location"
-            android:layout_marginBottom="6dp"/>
-
-        <Button android:id="@+id/pickOnMapButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="🗺️ Pick on Map"
-            android:backgroundTint="#2196F3"
-            android:textColor="#FFFFFF"
-            android:layout_marginBottom="4dp"/>
-
-        <TextView android:id="@+id/locationText"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="13sp" android:textColor="#4CAF50"
-            android:visibility="gone" android:layout_marginBottom="12dp"/>
+            android:layout_marginBottom="8dp"
+            android:text="Location * (choose one method)"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/getLocationButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:text="📍 Use My GPS Location" />
+
+        <Button
+            android:id="@+id/pickOnMapButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:backgroundTint="#2196F3"
+            android:text="🗺️ Pick on Map"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/locationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:textColor="#4CAF50"
+            android:textSize="13sp"
+            android:visibility="gone" />
 
         <!-- ===== IMAGE ===== -->
-        <Button android:id="@+id/pickImageButton"
-            android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="📸 Pick a Photo (optional)" android:layout_marginBottom="4dp"/>
-        <ImageView android:id="@+id/selectedImagePreview"
-            android:layout_width="match_parent" android:layout_height="150dp"
-            android:scaleType="centerCrop" android:visibility="gone"
-            android:layout_marginBottom="4dp"/>
-        <TextView android:id="@+id/selectedImageName"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:textSize="12sp" android:textColor="#4CAF50"
-            android:visibility="gone" android:layout_marginBottom="16dp"/>
+        <Button
+            android:id="@+id/pickImageButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="📸 Pick a Photo (optional)" />
+
+        <ImageView
+            android:id="@+id/selectedImagePreview"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginBottom="4dp"
+            android:scaleType="centerCrop"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/selectedImageName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:textColor="#4CAF50"
+            android:textSize="12sp"
+            android:visibility="gone" />
 
         <!-- ===== TOGGLE ===== -->
-        <Button android:id="@+id/toggleMoreDetails"
-            android:layout_width="match_parent" android:layout_height="wrap_content"
+        <Button
+            android:id="@+id/toggleMoreDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="#E0E0E0"
             android:text="▼ Add More Details (optional)"
-            android:backgroundTint="#E0E0E0" android:textColor="#333333"
-            android:layout_marginBottom="8dp"/>
+            android:textColor="#333333" />
 
         <!-- ===== EXTRA DETAILS (hidden) ===== -->
-        <LinearLayout android:id="@+id/moreDetailsSection"
-            android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:orientation="vertical" android:visibility="gone"
-            android:padding="8dp" android:background="#F5F5F5">
+        <LinearLayout
+            android:id="@+id/moreDetailsSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F5F5F5"
+            android:orientation="vertical"
+            android:padding="8dp"
+            android:visibility="gone">
 
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Nearest Town" android:textSize="13sp" android:textStyle="bold"
-                android:layout_marginBottom="4dp"/>
-            <EditText android:id="@+id/addGemTown" android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:hint="e.g. Dawki"
-                android:layout_marginBottom="10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Nearest Town"
+                android:textSize="13sp"
+                android:textStyle="bold" />
 
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="How To Reach" android:textSize="13sp" android:textStyle="bold"
-                android:layout_marginBottom="4dp"/>
-            <EditText android:id="@+id/addGemHowToReach" android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:hint="e.g. 3 hours from Shillong"
-                android:layout_marginBottom="10dp"/>
+            <EditText
+                android:id="@+id/addGemTown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="e.g. Dawki" />
 
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Travel Tips" android:textSize="13sp" android:textStyle="bold"
-                android:layout_marginBottom="4dp"/>
-            <EditText android:id="@+id/addGemTips" android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:hint="e.g. Carry raincoat"
-                android:minLines="2" android:gravity="top" android:layout_marginBottom="10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="How To Reach"
+                android:textSize="13sp"
+                android:textStyle="bold" />
 
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Entry Fee" android:textSize="13sp" android:textStyle="bold"
-                android:layout_marginBottom="4dp"/>
-            <EditText android:id="@+id/addGemEntryFee" android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:hint="e.g. Free / ₹50"
-                android:layout_marginBottom="10dp"/>
+            <EditText
+                android:id="@+id/addGemHowToReach"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="e.g. 3 hours from Shillong" />
 
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Difficulty Level" android:textSize="13sp" android:textStyle="bold"
-                android:layout_marginBottom="4dp"/>
-            <Spinner android:id="@+id/addGemDifficulty" android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:layout_marginBottom="10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Travel Tips"
+                android:textSize="13sp"
+                android:textStyle="bold" />
 
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Best Season — Start" android:textSize="13sp" android:textStyle="bold"
-                android:layout_marginBottom="4dp"/>
-            <Spinner android:id="@+id/addGemSeasonStart" android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:layout_marginBottom="10dp"/>
+            <EditText
+                android:id="@+id/addGemTips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:gravity="top"
+                android:hint="e.g. Carry raincoat"
+                android:minLines="2" />
 
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Best Season — End" android:textSize="13sp" android:textStyle="bold"
-                android:layout_marginBottom="4dp"/>
-            <Spinner android:id="@+id/addGemSeasonEnd" android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:layout_marginBottom="10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Entry Fee"
+                android:textSize="13sp"
+                android:textStyle="bold" />
 
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Season Warning" android:textSize="13sp" android:textStyle="bold"
-                android:layout_marginBottom="4dp"/>
-            <EditText android:id="@+id/addGemSeasonWarning" android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:hint="e.g. Avoid heavy monsoon"
-                android:layout_marginBottom="10dp"/>
+            <EditText
+                android:id="@+id/addGemEntryFee"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="e.g. Free / ₹50" />
 
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Safety Note" android:textSize="13sp" android:textStyle="bold"
-                android:layout_marginBottom="4dp"/>
-            <EditText android:id="@+id/addGemSafetyNote" android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:hint="e.g. Slippery rocks"
-                android:layout_marginBottom="10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Difficulty Level"
+                android:textSize="13sp"
+                android:textStyle="bold" />
 
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Local Contact" android:textSize="13sp" android:textStyle="bold"
-                android:layout_marginBottom="4dp"/>
-            <EditText android:id="@+id/addGemLocalContact" android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:hint="e.g. +91 98765 43210"
-                android:inputType="phone" android:layout_marginBottom="10dp"/>
+            <Spinner
+                android:id="@+id/addGemDifficulty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp" />
 
-            <CheckBox android:id="@+id/addGemNetworkAvailable"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="📶 Mobile network available" android:checked="true"
-                android:layout_marginBottom="8dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Best Season — Start"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/addGemSeasonStart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Best Season — End"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/addGemSeasonEnd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Season Warning"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/addGemSeasonWarning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="e.g. Avoid heavy monsoon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Safety Note"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/addGemSafetyNote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="e.g. Slippery rocks" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Local Contact"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/addGemLocalContact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="e.g. +91 98765 43210"
+                android:inputType="phone" />
+
+            <CheckBox
+                android:id="@+id/addGemNetworkAvailable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:checked="true"
+                android:text="📶 Mobile network available" />
 
         </LinearLayout>
 
         <!-- ===== SUBMIT ===== -->
-        <Button android:id="@+id/submitGemButton"
-            android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="Submit Gem" android:textSize="16sp"
-            android:backgroundTint="#4CAF50" android:textColor="#FFFFFF"
-            android:layout_marginTop="16dp" android:layout_marginBottom="32dp"/>
+        <Button
+            android:id="@+id/submitGemButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="32dp"
+            android:backgroundTint="#4CAF50"
+            android:text="Submit Gem"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
 
     </LinearLayout>
 </ScrollView>

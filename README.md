@@ -2,7 +2,7 @@
 
 ## 🌏 Project Aim
 
-GONLY is a mobile platform that helps travelers and locals **discover, share, and review lesser-known places and cultural events** across North-East India. It leverages community contributions (photos, reviews) and smart search to highlight gems you won't find in standard guides!
+GONLY is a mobile platform that helps travelers and locals **discover, share, and review lesser-known places and cultural events** across India. It leverages community contributions (photos, reviews) and smart search to highlight gems you won't find in standard guides!
 
 ---
 
@@ -81,7 +81,7 @@ API->>Client: JPEG/PNG bytes
 ## 🚀 Quick Start (Dev)
 
 1. **Backend:**
-    - `git clone --> [REPO LINK](https://github.com/RingkhangBTY/Gonly_backend_server>)
+    - `git clone --> [REPO LINK](https://github.com/RingkhangBTY/Gonly_backend_server)
     - Edit `application.properties` (set DB credentials, allowed upload size)
     - Run: `./mvnw spring-boot:run`
     - Base URL: `http://localhost:8080`
@@ -157,11 +157,8 @@ Returns:
 ## 📄 Demo Screenshots
 
 <!-- Add screenshots here, e.g. -->
-![Gem Detail](demo/gem_details.png)
-![Map with Pins](demo/home.png)
-![Search & Filter](demo/search.png)
-![Profile](demo/profile.png)
-![Bookmarks](demo/bookmarks.png)
+![Gem Detail](demo/gem_details.png) ![Map with Pins](demo/home.png)
+![Search & Filter](demo/search.png) ![Profile](demo/profile.png) ![Bookmarks](demo/bookmarks.png)
 
 ---
 
