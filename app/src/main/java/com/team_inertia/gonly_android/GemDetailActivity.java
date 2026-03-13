@@ -36,17 +36,28 @@ public class GemDetailActivity extends AppCompatActivity {
 
     private long gemId;
     private SessionManager sessionManager;
+    private boolean isInfoExpanded = false , isActionExpanded = false , isReportSuggestionExpanded = false;
 
     // Store gem location for Google Maps button
     private double gemLat = 0;
     private double gemLng = 0;
     private String gemName = "";
 
+    // Basic info views
     private TextView nameText, descText, stateText, categoryText, ratingText;
-    private TextView tipsText, howToReachText, difficultyText;
     private TextView photoCountText;
     private LinearLayout imageGalleryContainer;
-    private Button bookmarkBtn, uploadImageBtn, submitReviewBtn, openMapBtn;
+
+    // Extra info views (inside collapsible container)
+    private LinearLayout extraInfoContainer , reportSuggestionsContainer, actionButtonsContainer;
+    private TextView tipsText, howToReachText, difficultyText;
+    private TextView entryFeeText, safetyNoteText, localContactText, nearestTownText, networkText;
+
+    // Buttons
+    private Button toggleInfoBtn , toggleActionBtn , bookmarkBtn, uploadImageBtn, submitReviewBtn,
+            openMapBtn , reportGemButton ;
+
+    // Review views
     private EditText reviewComment;
     private RatingBar reviewRatingBar;
     private RecyclerView reviewsList;
@@ -60,24 +71,9 @@ public class GemDetailActivity extends AppCompatActivity {
         sessionManager = new SessionManager(this);
         gemId = getIntent().getLongExtra("gemId", -1);
 
-        // Find all views
-        nameText = findViewById(R.id.detailName);
-        descText = findViewById(R.id.detailDescription);
-        stateText = findViewById(R.id.detailState);
-        categoryText = findViewById(R.id.detailCategory);
-        ratingText = findViewById(R.id.detailRating);
-        tipsText = findViewById(R.id.detailTips);
-        howToReachText = findViewById(R.id.detailHowToReach);
-        difficultyText = findViewById(R.id.detailDifficulty);
-        photoCountText = findViewById(R.id.photoCountText);
-        imageGalleryContainer = findViewById(R.id.imageGalleryContainer);
-        bookmarkBtn = findViewById(R.id.bookmarkButton);
-        uploadImageBtn = findViewById(R.id.uploadImageButton);
-        submitReviewBtn = findViewById(R.id.submitReviewButton);
-        openMapBtn = findViewById(R.id.openMapButton);
-        reviewComment = findViewById(R.id.reviewCommentInput);
-        reviewRatingBar = findViewById(R.id.reviewRatingBar);
-        reviewsList = findViewById(R.id.reviewsRecycler);
+        initializeViews(); // set up all view references
+        setUpListeners(); // set up all button click listeners
+
 
         // Setup reviews list
         reviewAdapter = new ReviewAdapter();
@@ -86,60 +82,8 @@ public class GemDetailActivity extends AppCompatActivity {
 
         // Load data
         loadGemDetail();
-        loadRealImages();   // <-- This now uses your Base64 endpoint!
+        loadRealImages();
         loadReviews();
-
-        // ==================== OPEN IN GOOGLE MAPS ====================
-        openMapBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openInGoogleMaps();
-            }
-        });
-
-        // ==================== BOOKMARK ====================
-        bookmarkBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!sessionManager.isLoggedIn()) {
-                    Toast.makeText(GemDetailActivity.this,
-                            "Please login first", Toast.LENGTH_SHORT).show();
-                    safeGoToLogin();
-                    return;
-                }
-                toggleBookmark();
-            }
-        });
-
-        // ==================== UPLOAD IMAGE ====================
-        uploadImageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!sessionManager.isLoggedIn()) {
-                    Toast.makeText(GemDetailActivity.this,
-                            "Please login first", Toast.LENGTH_SHORT).show();
-                    safeGoToLogin();
-                    return;
-                }
-                Intent pickIntent = new Intent(Intent.ACTION_PICK);
-                pickIntent.setType("image/*");
-                startActivityForResult(pickIntent, PICK_IMAGE);
-            }
-        });
-
-        // ==================== SUBMIT REVIEW ====================
-        submitReviewBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!sessionManager.isLoggedIn()) {
-                    Toast.makeText(GemDetailActivity.this,
-                            "Please login first", Toast.LENGTH_SHORT).show();
-                    safeGoToLogin();
-                    return;
-                }
-                submitReview();
-            }
-        });
     }
 
     private void safeGoToLogin() {
@@ -182,9 +126,9 @@ public class GemDetailActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     GemResponse gem = response.body();
 
-                    if (gem.getLatitude() != null) gemLat = gem.getLatitude();
-                    if (gem.getLongitude() != null) gemLng = gem.getLongitude();
-                    if (gem.getName() != null) gemName = gem.getName();
+                    if (gem.getLatitude() != null)  gemLat  = gem.getLatitude();
+                    if (gem.getLongitude() != null)  gemLng  = gem.getLongitude();
+                    if (gem.getName() != null)       gemName = gem.getName();
 
                     nameText.setText(gem.getName());
                     descText.setText(gem.getDescription());
@@ -198,10 +142,23 @@ public class GemDetailActivity extends AppCompatActivity {
                         ratingText.setText("⭐ No ratings yet");
                     }
 
-                    // Show/hide optional fields
-                    showOrHide(tipsText, gem.getTravelTips(), "💡 ");
-                    showOrHide(howToReachText, gem.getHowToReach(), "🚗 ");
-                    showOrHide(difficultyText, gem.getDifficultyLevel(), "⛰️ Difficulty: ");
+                    // ── Extra collapsible fields ──
+                    showOrHide(tipsText,         gem.getTravelTips(),     "💡 Tips: ");
+                    showOrHide(howToReachText,   gem.getHowToReach(),     "🚗 How to reach: ");
+                    showOrHide(difficultyText,   gem.getDifficultyLevel(),"⛰️ Difficulty: ");
+                    showOrHide(entryFeeText,     gem.getEntryFee(),       "🎟️ Entry Fee: ");
+                    showOrHide(safetyNoteText,   gem.getSafetyNote(),     "⚠️ Safety: ");
+                    showOrHide(localContactText, gem.getLocalContact(),   "📞 Local Contact: ");
+                    showOrHide(nearestTownText,  gem.getNearestTown(),    "🏘️ Nearest Town: ");
+
+                    if (gem.getNetworkAvailable() != null) {
+                        networkText.setText(gem.getNetworkAvailable()
+                                ? "📶 Network: Available"
+                                : "📵 Network: Not Available");
+                        networkText.setVisibility(View.VISIBLE);
+                    } else {
+                        networkText.setVisibility(View.GONE);
+                    }
                 }
             }
 
@@ -222,21 +179,17 @@ public class GemDetailActivity extends AppCompatActivity {
             textView.setVisibility(View.GONE);
         }
     }
+
+    // ==================== LOAD IMAGES ====================
     private void loadRealImages() {
         ApiService api = ApiClient.getApiService(this);
-
-        // Step 1: Call the endpoint
         api.getAllGemImages(gemId).enqueue(new Callback<List<GemImageData>>() {
             @Override
             public void onResponse(Call<List<GemImageData>> call,
                                    Response<List<GemImageData>> response) {
-
                 if (response.isSuccessful() && response.body() != null) {
-                    List<GemImageData> images = response.body();
-                    // Step 2: Build the gallery from Base64 data
-                    buildImageGallery(images);
+                    buildImageGallery(response.body());
                 } else {
-                    // No images or error
                     showNoPhotosPlaceholder();
                 }
             }
@@ -249,75 +202,45 @@ public class GemDetailActivity extends AppCompatActivity {
     }
 
     private void buildImageGallery(List<GemImageData> images) {
-        // Clear old images
         imageGalleryContainer.removeAllViews();
 
-        // No images case
         if (images == null || images.size() == 0) {
             showNoPhotosPlaceholder();
             return;
         }
 
-        // Show photo count
         int count = images.size();
-        if (count == 1) {
-            photoCountText.setText("📸 1 photo");
-        } else {
-            photoCountText.setText("📸 " + count + " photos — scroll to see all →");
-        }
+        photoCountText.setText(count == 1
+                ? "📸 1 photo"
+                : "📸 " + count + " photos — scroll to see all →");
 
-        // Step 3: Loop through each image
-        for (int i = 0; i < images.size(); i++) {
-            GemImageData imageData = images.get(i);
-
+        for (GemImageData imageData : images) {
             String base64String = imageData.getImageBase64();
+            if (base64String == null || base64String.isEmpty()) continue;
 
-            if (base64String == null || base64String.isEmpty()) {
-                // Skip this image if no data
-                continue;
-            }
-
-            // Base64 string like "iVBORw0K..." → byte[] like [89, 50, 4E, 47, ...]
             byte[] imageBytes = Base64.decode(base64String, Base64.DEFAULT);
-
-            // byte[] → Bitmap that Android can display
             Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+            if (bitmap == null) continue;
 
-            if (bitmap == null) {
-                // Image bytes were corrupted, skip
-                continue;
-            }
-
-            // Create ImageView to hold this photo
             ImageView imageView = new ImageView(GemDetailActivity.this);
-
-            int widthPx = dpToPx(300);
-            int heightPx = dpToPx(250);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(widthPx, heightPx);
-            params.setMargins(0, 0, dpToPx(8), 0); // 8dp gap between photos
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    dpToPx(300), dpToPx(250));
+            params.setMargins(0, 0, dpToPx(8), 0);
             imageView.setLayoutParams(params);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
             imageView.setImageBitmap(bitmap);
 
-            // Show who uploaded this photo when tapped
             final String uploaderName = imageData.getUploadedByName();
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String msg = "Photo";
-                    if (uploaderName != null && !uploaderName.isEmpty()) {
-                        msg = "📸 Uploaded by: " + uploaderName;
-                    }
-                    Toast.makeText(GemDetailActivity.this, msg, Toast.LENGTH_SHORT).show();
-                }
+            imageView.setOnClickListener(v -> {
+                String msg = (uploaderName != null && !uploaderName.isEmpty())
+                        ? "📸 Uploaded by: " + uploaderName
+                        : "Photo";
+                Toast.makeText(GemDetailActivity.this, msg, Toast.LENGTH_SHORT).show();
             });
 
-            // Add to the horizontal gallery
             imageGalleryContainer.addView(imageView);
         }
 
-        // If all images were corrupted and none were added
         if (imageGalleryContainer.getChildCount() == 0) {
             showNoPhotosPlaceholder();
         }
@@ -407,7 +330,7 @@ public class GemDetailActivity extends AppCompatActivity {
                     reviewComment.setText("");
                     reviewRatingBar.setRating(0);
                     loadReviews();
-                    loadGemDetail(); // refresh rating count
+                    loadGemDetail();
                 } else {
                     Toast.makeText(GemDetailActivity.this,
                             "Failed to add review", Toast.LENGTH_SHORT).show();
@@ -428,9 +351,7 @@ public class GemDetailActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE && resultCode == Activity.RESULT_OK && data != null) {
             Uri imageUri = data.getData();
-            if (imageUri != null) {
-                uploadImage(imageUri);
-            }
+            if (imageUri != null) uploadImage(imageUri);
         }
     }
 
@@ -445,8 +366,7 @@ public class GemDetailActivity extends AppCompatActivity {
             inputStream.read(bytes);
             inputStream.close();
 
-            RequestBody requestBody = RequestBody.create(
-                    MediaType.parse("image/jpeg"), bytes);
+            RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpeg"), bytes);
             MultipartBody.Part part = MultipartBody.Part.createFormData(
                     "image", "photo.jpg", requestBody);
 
@@ -458,7 +378,6 @@ public class GemDetailActivity extends AppCompatActivity {
                     if (response.isSuccessful()) {
                         Toast.makeText(GemDetailActivity.this,
                                 "Image uploaded! 📸", Toast.LENGTH_SHORT).show();
-                        // Reload images to show the new one
                         loadRealImages();
                     } else {
                         Toast.makeText(GemDetailActivity.this,
@@ -475,5 +394,119 @@ public class GemDetailActivity extends AppCompatActivity {
         } catch (Exception e) {
             Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void setUpListeners(){
+        // ==================== TOGGLE INFO ====================
+        toggleInfoBtn.setOnClickListener(v -> {
+            isInfoExpanded = !isInfoExpanded;
+            extraInfoContainer.setVisibility(isInfoExpanded ? View.VISIBLE : View.GONE);
+            toggleInfoBtn.setText(isInfoExpanded ? "ℹ️ Show Less ▲" : "ℹ️ Show More Info ▼");
+        });
+
+        // ==================== TOGGLE ACTION BUTTON ====================
+        toggleActionBtn.setOnClickListener(view -> {
+            isActionExpanded = !isActionExpanded;
+            isReportSuggestionExpanded = !isReportSuggestionExpanded;
+
+            actionButtonsContainer.setVisibility(isActionExpanded? View.VISIBLE : View.GONE);
+            reportSuggestionsContainer.setVisibility(isReportSuggestionExpanded ? View.VISIBLE : View.GONE);
+            toggleActionBtn.setText(isActionExpanded ? "⚡ Hide Action Buttons ▲" : "⚡ Show Action Buttons ▼");
+        });
+
+
+        // ==================== OPEN IN GOOGLE MAPS ====================
+        openMapBtn.setOnClickListener(v -> openInGoogleMaps());
+
+        // ==================== BOOKMARK ====================
+        bookmarkBtn.setOnClickListener(v -> {
+            if (!sessionManager.isLoggedIn()) {
+                Toast.makeText(GemDetailActivity.this,
+                        "Please login first", Toast.LENGTH_SHORT).show();
+                safeGoToLogin();
+                return;
+            }
+            toggleBookmark();
+        });
+
+        // ==================== UPLOAD IMAGE ====================
+        uploadImageBtn.setOnClickListener(v -> {
+            if (!sessionManager.isLoggedIn()) {
+                Toast.makeText(GemDetailActivity.this,
+                        "Please login first", Toast.LENGTH_SHORT).show();
+                safeGoToLogin();
+                return;
+            }
+            Intent pickIntent = new Intent(Intent.ACTION_PICK);
+            pickIntent.setType("image/*");
+            startActivityForResult(pickIntent, PICK_IMAGE);
+        });
+
+        // ==================== SUBMIT REVIEW ====================
+        submitReviewBtn.setOnClickListener(v -> {
+            if (!sessionManager.isLoggedIn()) {
+                Toast.makeText(GemDetailActivity.this,
+                        "Please login first", Toast.LENGTH_SHORT).show();
+                safeGoToLogin();
+                return;
+            }
+            submitReview();
+        });
+
+        // goto report page
+        reportGemButton.setOnClickListener(view -> {
+            if (!sessionManager.isLoggedIn()){
+                Toast.makeText(GemDetailActivity.this,
+                        "Please login first", Toast.LENGTH_SHORT).show();
+                safeGoToLogin();
+                return;
+            }
+
+            Intent reportIntent = new Intent(GemDetailActivity.this,ReportActivity.class);
+            reportIntent.putExtra("gemId",gemId);
+            startActivity(reportIntent);
+            finish();
+        });
+    }
+    private void initializeViews() {
+        // ── Basic info views ──
+        nameText     = findViewById(R.id.detailName);
+        descText     = findViewById(R.id.detailDescription);
+        stateText    = findViewById(R.id.detailState);
+        categoryText = findViewById(R.id.detailCategory);
+        ratingText   = findViewById(R.id.detailRating);
+        photoCountText       = findViewById(R.id.photoCountText);
+        imageGalleryContainer = findViewById(R.id.imageGalleryContainer);
+
+        // ── Toggle + collapsible container ──
+        toggleInfoBtn      = findViewById(R.id.toggleInfoButton);
+        toggleActionBtn   = findViewById(R.id.toggleActionButton);
+        extraInfoContainer = findViewById(R.id.extraInfoContainer);
+
+        // ── Extra info views (inside collapsible) ──
+        tipsText        = findViewById(R.id.detailTips);
+        howToReachText  = findViewById(R.id.detailHowToReach);
+        difficultyText  = findViewById(R.id.detailDifficulty);
+        entryFeeText    = findViewById(R.id.detailEntryFee);
+        safetyNoteText  = findViewById(R.id.detailSafetyNote);
+        localContactText = findViewById(R.id.detailLocalContact);
+        nearestTownText = findViewById(R.id.detailNearestTown);
+        networkText     = findViewById(R.id.detailNetwork);
+
+        // ── Buttons ──
+        openMapBtn    = findViewById(R.id.openMapButton);
+        bookmarkBtn   = findViewById(R.id.bookmarkButton);
+        uploadImageBtn = findViewById(R.id.uploadImageButton);
+        submitReviewBtn = findViewById(R.id.submitReviewButton);
+        reportGemButton = findViewById(R.id.reportIssueButton);
+
+        // ── Review views ──
+        reviewComment   = findViewById(R.id.reviewCommentInput);
+        reviewRatingBar = findViewById(R.id.reviewRatingBar);
+        reviewsList     = findViewById(R.id.reviewsRecycler);
+
+
+        actionButtonsContainer = findViewById(R.id.bookmarkUploadContainer);
+        reportSuggestionsContainer = findViewById(R.id.reportSuggestionsContainer);
     }
 }

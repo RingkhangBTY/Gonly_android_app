@@ -81,32 +81,125 @@
             android:layout_marginBottom="12dp"
             android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/detailTips"
+        <!-- ========== TOGGLE BUTTON ========== -->
+        <Button
+            android:id="@+id/toggleInfoButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="#E0E0E0"
+            android:text="ℹ️ Show More Info ▼"
+            android:textColor="#333333" />
+
+        <!-- ========== COLLAPSIBLE EXTRA INFO ========== -->
+        <LinearLayout
+            android:id="@+id/extraInfoContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/detailTips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/detailHowToReach"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/detailDifficulty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/detailEntryFee"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/detailSafetyNote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/detailLocalContact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/detailNearestTown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/detailNetwork"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/toggleActionButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/detailHowToReach"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/detailDifficulty"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:textSize="14sp" />
+            android:backgroundTint="#E0E0E0"
+            android:text="ℹ️ Show Action Buttons ▼"
+            android:textColor="#333333" />
 
         <!-- ========== ACTION BUTTONS ========== -->
         <LinearLayout
+            android:id="@+id/reportSuggestionsContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/reportIssueButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:text="🚩 Report Issue" />
+
+            <Button
+                android:id="@+id/suggestEditButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="📝 Suggest Edit"
+                android:layout_weight="1"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bookmarkUploadContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <Button
@@ -122,6 +215,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginEnd="8dp"
                 android:text="📸 Add Photo" />
         </LinearLayout>
 
@@ -171,5 +265,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false" />
+
     </LinearLayout>
 </ScrollView>

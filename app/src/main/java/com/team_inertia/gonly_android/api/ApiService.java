@@ -109,4 +109,9 @@ public interface ApiService {
     // POST /api/events — create event (token needed)
     @POST("/api/events")
     Call<EventResponse> createEvent(@Body EventRequest request);
+
+    // ================ report ================
+    @POST("api/reports")
+    Call<ApiResponse> createReport(@Body ReportRequest report);
+
 }

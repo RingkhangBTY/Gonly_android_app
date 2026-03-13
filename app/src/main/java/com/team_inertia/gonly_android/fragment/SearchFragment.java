@@ -26,7 +26,7 @@ import retrofit2.Response;
 public class SearchFragment extends Fragment {
 
     private EditText searchInput;
-    private Button searchBtn;
+    private Button searchBtn , categoryFilterBtn;
     private ChipGroup categoryChips;
     private EditText stateFilterInput;
     private Button stateFilterBtn;
@@ -39,17 +39,8 @@ public class SearchFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
-        searchInput = view.findViewById(R.id.searchInput);
-        searchBtn = view.findViewById(R.id.searchButton);
-        categoryChips = view.findViewById(R.id.categoryChips);
-        stateFilterInput = view.findViewById(R.id.stateFilterInput);
-        stateFilterBtn = view.findViewById(R.id.stateFilterButton);
-        resultsRecycler = view.findViewById(R.id.searchResults);
-        noResultsText = view.findViewById(R.id.noResultsText);
+        initializeViews(view);
 
-        gemAdapter = new GemAdapter();
-        resultsRecycler.setLayoutManager(new LinearLayoutManager(requireActivity()));
-        resultsRecycler.setAdapter(gemAdapter);
 
         // Search button
         searchBtn.setOnClickListener(v -> {
@@ -75,6 +66,10 @@ public class SearchFragment extends Fragment {
             if (!state.isEmpty()) {
                 filterByState(state);
             }
+        });
+
+        categoryFilterBtn.setOnClickListener(v->{
+            categoryChips.setVisibility(categoryChips.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
         });
 
         // Load all gems initially
@@ -152,5 +147,21 @@ public class SearchFragment extends Fragment {
         } else {
             noResultsText.setVisibility(View.GONE);
         }
+    }
+
+    private void initializeViews(View view) {
+        searchInput = view.findViewById(R.id.searchInput);
+        searchBtn = view.findViewById(R.id.searchButton);
+        categoryChips = view.findViewById(R.id.categoryChips);
+        stateFilterInput = view.findViewById(R.id.stateFilterInput);
+        stateFilterBtn = view.findViewById(R.id.stateFilterButton);
+        resultsRecycler = view.findViewById(R.id.searchResults);
+        noResultsText = view.findViewById(R.id.noResultsText);
+
+        categoryFilterBtn = view.findViewById(R.id.search_catsBtn);
+
+        gemAdapter = new GemAdapter();
+        resultsRecycler.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        resultsRecycler.setAdapter(gemAdapter);
     }
 }
