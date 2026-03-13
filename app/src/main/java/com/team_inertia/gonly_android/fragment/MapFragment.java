@@ -18,6 +18,7 @@ import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
 import com.team_inertia.gonly_android.AddGemActivity;
 import com.team_inertia.gonly_android.GemDetailActivity;
+import com.team_inertia.gonly_android.MainActivity;
 import com.team_inertia.gonly_android.R;
 import com.team_inertia.gonly_android.api.ApiClient;
 import com.team_inertia.gonly_android.api.ApiService;
@@ -37,7 +38,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap googleMap;
     private MapView mapView;
     private EditText searchBar;
-    private Button searchButton, addGemButton;
+
+    private Spinner mapModeSpinner;
+    private Button searchButton, addGemButton , mapModeBtn;
     private TextView resultCountText;
     private FusedLocationProviderClient locationClient;
 
@@ -47,17 +50,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     // Map from marker ID to gem ID, so we know which gem was tapped
     private Map<String, Long> markerToGemId = new HashMap<>();
 
+    private boolean isMapModeSpinnerVisible = false;
+    private final String[] mapModes = {"NORMAL","SATELLITE","TERRAIN","HYBRID"};
+    private ArrayAdapter<String> adapter;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
         searchBar = view.findViewById(R.id.mapSearchBar);
         searchButton = view.findViewById(R.id.mapSearchButton);
         addGemButton = view.findViewById(R.id.addGemFab);
+        mapModeBtn = view.findViewById(R.id.mapMode);
         resultCountText = view.findViewById(R.id.mapResultCount);
+
+        mapModeSpinner = view.findViewById(R.id.mapModeSpinner);
 
         mapView = view.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
@@ -65,6 +76,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         locationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
 
+        adapter = new ArrayAdapter<>(requireActivity(),android.R.layout.simple_spinner_dropdown_item,mapModes);
+        mapModeSpinner.setAdapter(adapter);
+
+
+        setUpListeners();
+
+        return view;
+    }
+
+    //Initialise all listeners
+    private void setUpListeners() {
         // ===== SEARCH BUTTON =====
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,7 +125,41 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
-        return view;
+        // select map mode
+        mapModeBtn.setOnClickListener(v->{
+            isMapModeSpinnerVisible = !isMapModeSpinnerVisible;
+            mapModeSpinner.setVisibility(isMapModeSpinnerVisible?View.VISIBLE:View.GONE);
+        });
+
+        // set Map mode
+        mapModeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                if (googleMap == null) return;
+
+                switch (position) {
+                    case 0:
+                        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                        break;
+
+                    case 1:
+                        googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                        break;
+
+                    case 2:
+                        googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+                        break;
+
+                    case 3:
+                        googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
     }
 
     @Override

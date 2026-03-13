@@ -257,7 +257,6 @@ public class GemDetailActivity extends AppCompatActivity {
         placeholder.setImageResource(R.drawable.ic_launcher_background);
         imageGalleryContainer.addView(placeholder);
     }
-
     private int dpToPx(int dp) {
         float density = getResources().getDisplayMetrics().density;
         return Math.round(dp * density);
@@ -468,6 +467,7 @@ public class GemDetailActivity extends AppCompatActivity {
             finish();
         });
     }
+
     private void initializeViews() {
         // ── Basic info views ──
         nameText     = findViewById(R.id.detailName);
