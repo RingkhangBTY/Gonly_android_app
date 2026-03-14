@@ -1,5 +1,6 @@
 package com.team_inertia.gonly_android.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -23,6 +24,21 @@ import java.util.List;
 public class GemAdapter extends RecyclerView.Adapter<GemAdapter.GemViewHolder> {
 
     private List<GemResponse> gems = new ArrayList<>();
+    private OnGemDeleteListener deleteListener;
+
+    public interface OnGemDeleteListener {
+        void onDeleteGem(GemResponse gem, int position);
+    }
+
+    // FIX: Added no-arg constructor (for use without delete functionality)
+    public GemAdapter() {
+        this.deleteListener = null;
+    }
+
+    // FIX: Added constructor that accepts delete listener
+    public GemAdapter(OnGemDeleteListener deleteListener) {
+        this.deleteListener = deleteListener;
+    }
 
     public void setGems(List<GemResponse> gems) {
         this.gems = gems;
@@ -94,6 +110,32 @@ public class GemAdapter extends RecyclerView.Adapter<GemAdapter.GemViewHolder> {
                 context.startActivity(intent);
             }
         });
+
+        // FIX: deleteListener null check added — long press only works if listener is set
+        holder.itemView.setOnLongClickListener(view -> {
+            if (deleteListener == null) return false;
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+            builder.setTitle("Delete Gem");
+            builder.setMessage("Are you sure you want to delete this gem?");
+
+            builder.setPositiveButton("Delete", (dialog, which) -> {
+                int pos = holder.getAdapterPosition();
+                if (pos != RecyclerView.NO_POSITION) {
+                    deleteListener.onDeleteGem(gems.get(pos), pos);
+                }
+            });
+
+            builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+            builder.show();
+
+            return true;
+        });
+    }
+
+    public void removeGem(int position) {
+        gems.remove(position);
+        notifyItemRemoved(position);
     }
 
     @Override

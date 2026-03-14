@@ -16,6 +16,7 @@ import com.team_inertia.gonly_android.RegisterActivity;
 import com.team_inertia.gonly_android.adapter.GemAdapter;
 import com.team_inertia.gonly_android.api.ApiClient;
 import com.team_inertia.gonly_android.api.ApiService;
+import com.team_inertia.gonly_android.model.ApiResponse;
 import com.team_inertia.gonly_android.model.GemResponse;
 import com.team_inertia.gonly_android.util.SessionManager;
 
@@ -64,7 +65,36 @@ public class ProfileFragment extends Fragment {
         Button logoutBtn = view.findViewById(R.id.logoutButton);
         RecyclerView myGemsRecycler = view.findViewById(R.id.myGemsRecycler);
 
-        GemAdapter gemAdapter = new GemAdapter();
+        // FIX: Use array holder to avoid "variable might not be initialized" error.
+        // Java lambdas cannot reference a local variable before it is fully assigned.
+        // The array wrapper is effectively final but its contents can be set after creation.
+        final GemAdapter[] adapterHolder = {null};
+
+        adapterHolder[0] = new GemAdapter((gem, position) -> {
+            ApiService api2 = ApiClient.getApiService(requireActivity());
+
+            api2.deleteGem(gem.getId()).enqueue(new Callback<ApiResponse>() {
+                @Override
+                public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                    if (response.isSuccessful()) {
+                        adapterHolder[0].removeGem(position);
+                        Toast.makeText(requireActivity(),
+                                "Gem deleted successfully",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ApiResponse> call, Throwable t) {
+                    Toast.makeText(requireActivity(),
+                            "Failed to delete gem",
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
+
+        GemAdapter gemAdapter = adapterHolder[0];
+
         myGemsRecycler.setLayoutManager(new LinearLayoutManager(requireActivity()));
         myGemsRecycler.setAdapter(gemAdapter);
 
@@ -76,7 +106,6 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 session.logout();
                 ApiClient.resetClient();
-                // Refresh the fragment to show guest view
                 getParentFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragmentContainer, new ProfileFragment())
@@ -92,6 +121,7 @@ public class ProfileFragment extends Fragment {
                 if (response.isSuccessful() && response.body() != null) {
                     gemAdapter.setGems(response.body());
                 }
+
             }
 
             @Override

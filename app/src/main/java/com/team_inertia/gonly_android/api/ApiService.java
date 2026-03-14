@@ -114,4 +114,6 @@ public interface ApiService {
     @POST("api/reports")
     Call<ApiResponse> createReport(@Body ReportRequest report);
 
+    @DELETE("/api/gems/{id}")
+    Call<ApiResponse> deleteGem(@Path("id") Long id);
 }
